@@ -1,8 +1,4 @@
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+package com.smaato.handlerequests.service;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -10,10 +6,13 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
-import com.smaato.managerequests.constants.ManageRequestsConstants;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
-import org.apache.log4j.Logger;
+import com.smaato.handlerequests.constants.HandleRequestsConstant;
 
 @Service
 public class RecordRequestService {
@@ -43,7 +42,7 @@ public class RecordRequestService {
 
         if (!logRecord.contains(String.valueOf(id))) {
 
-            applog.info(id);
+            applog.info(String.valueOf(id));
 
             if (returnReqCount) {
 
@@ -68,7 +67,7 @@ public class RecordRequestService {
      */
     private void publishToKafka(int trafficCount) {
 
-        externalCallService.callThirdParty(ManageRequestsConstants.CALLING_HOST + kafkaPort.concat(kafkaUrl),
+        externalCallService.callThirdParty(HandleRequestsConstant.CALLING_HOST + kafkaPort.concat(kafkaUrl),
                 trafficCount);
 
     }

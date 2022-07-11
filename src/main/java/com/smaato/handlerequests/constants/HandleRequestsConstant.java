@@ -1,10 +1,9 @@
-public class HandleRequestsConstant {
+package com.smaato.handlerequests.constants;
 
-    private HandleRequestsConstant() {
-    }
+public class HandleRequestsConstant {
 
     public static final String SUCCESSFUL_RESPONSE = "ok";
     public static final String FAILURE_RESPONSE = "failed";
+    public static final String CALLING_HOST = "http://localhost:";
     public static final String ENDPOINT_QUERYPARAM = "count";
-    
 }

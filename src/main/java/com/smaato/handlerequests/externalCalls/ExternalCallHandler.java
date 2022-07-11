@@ -1,12 +1,12 @@
-package com.smaato.managerequests.externalCalls;
-
-import com.smaato.managerequests.constants.ManageRequestsConstants;
+package com.smaato.handlerequests.externalCalls;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
+
+import com.smaato.handlerequests.constants.HandleRequestsConstant;
 
 @Service
 public class ExternalCallHandler {
@@ -20,11 +20,9 @@ public class ExternalCallHandler {
 
         int statusCode = 0;
         try {
-            ResponseEntity<String> response = restTemplate.getForEntity(
-                    getUri,
-                    String.class); // HTTP-GET
+            ResponseEntity<String> response = restTemplate.getForEntity(getUri, String.class); // HTTP-GET
             // request
-            statusCode = response.getStatusCodeValue();
+            statusCode = response.getStatusCode().value();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -44,7 +42,7 @@ public class ExternalCallHandler {
     private String createURI(String uri, int trafficCount) {
 
         UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromUriString(uri)
-                .queryParam(ManageRequestsConstants.ENDPOINT_QUERYPARAM, trafficCount);
+                .queryParam(HandleRequestsConstant.ENDPOINT_QUERYPARAM, trafficCount);
 
         return uriBuilder.toUriString();
     }

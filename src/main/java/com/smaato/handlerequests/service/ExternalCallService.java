@@ -1,8 +1,10 @@
-import com.smaato.managerequests.externalCalls.ExternalCallHandler;
+package com.smaato.handlerequests.service;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.smaato.handlerequests.externalCalls.ExternalCallHandler;
 
 @Service
 public class ExternalCallService {

@@ -22,6 +22,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/smaato")
 public class HandleRequestsRestController implements HandleRequestsInterface {
 
+    @Autowired
+    private RecordRequestService recordRequestService;
+
+    @Autowired
+    private ExternalCallService externalCallService;
+
+    @Value("${server.port}")
+    private String appPort;
+
     @Override
     @GetMapping("/accept")
     @Produces(MediaType.APPLICATION_JSON)
@@ -29,7 +38,11 @@ public class HandleRequestsRestController implements HandleRequestsInterface {
             @RequestParam(value = "endpoint", required = false) String endpoint) {
 
         try {
-
+            int trafficCount = recordRequestService.recordRequests(id, endpoint.isEmpty());
+            if (!endpoint.isEmpty()) {
+                externalCallService.callThirdParty(HandleRequestsConstant.CALLING_HOST + appPort + endpoint,
+                        trafficCount);
+            }
         } catch (Exception e) {
             return new ResponseEntity<String>(HandleRequestsConstant.FAILURE_RESPONSE,
                     HttpStatus.INTERNAL_SERVER_ERROR);
