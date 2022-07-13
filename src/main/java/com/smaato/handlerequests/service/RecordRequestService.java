@@ -1,23 +1,21 @@
 package com.smaato.handlerequests.service;
 
-import java.io.BufferedReader;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.smaato.handlerequests.constants.HandleRequestsConstant;
 
 @Service
+@ComponentScan
 public class RecordRequestService {
 
     static final Logger applog = Logger.getLogger("debugLogger");
