@@ -16,17 +16,21 @@ public class RecordClearExecutorService {
     private final ScheduledExecutorService recClearExecutor = Executors.newScheduledThreadPool(1);
 
     public void refreshRecords(){
-        
 
-        final Runnable clearDataRunnable = new Runnable() {
+        final Runnable logRecordRunnable = new Runnable() {
             public void run() {
-                recordRequestService.clearAndStore();
+                recordRequestService.store();
             }
         };
-    recClearExecutor.scheduleAtFixedRate(clearDataRunnable, 0, 1, TimeUnit.MINUTES);
+
+        final Runnable clearRecordRunnable = new Runnable() {
+            public void run() {
+                recordRequestService.clearRecord();
+            }
+        };
+   
+    recClearExecutor.scheduleAtFixedRate(logRecordRunnable, 0, 1, TimeUnit.HOURS);
+    recClearExecutor.scheduleAtFixedRate(clearRecordRunnable, 0, 1, TimeUnit.MINUTES);
 
     }       
-
-
-
 }

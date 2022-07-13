@@ -40,19 +40,19 @@ public class RecordRequestService {
 
     @Autowired
     private ExternalCallService externalCallService;
-
-    Calendar rightNow = Calendar.getInstance();
     
-    Map<Integer, Integer> minIdMap = new HashMap<>();
+    Map<Integer, Integer> minIdMap = new HashMap<Integer, Integer>();
     
     Set<Integer> currentIdCount = new HashSet<Integer>();
 
-    public void clearAndStore(){
+    public void store(){
         minIdMap.forEach((key,value) -> applog.info(key + ":" + value));
-        currentIdCount.clear();
         minIdMap.clear();
     }
     
+    public void clearRecord(){
+        currentIdCount.clear();
+    }
     /*
      * <<<<<< Extension 2 :
      * Using @Transactional annotation for synchronous acccess for write operation
@@ -60,17 +60,18 @@ public class RecordRequestService {
     @Transactional
     public int recordRequests(int id, boolean returnReqCount) throws FileNotFoundException, IOException {
 
+        Calendar rightNow = Calendar.getInstance();
+
         currentIdCount.add(id);
-
         minIdMap.put(rightNow.get(Calendar.MINUTE), currentIdCount.size());
-
+        minIdMap.entrySet().forEach(System.out::println);
         int currentMinCount = currentIdCount.size();
 
         if (returnReqCount) {
 
             if (kafkaFlow) {
                publishToKafka(currentMinCount);
-            }
+            } 
             return currentMinCount; // as current request ID has also been added into the log file.
         }
         return currentMinCount;
