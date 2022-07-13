@@ -2,8 +2,14 @@ package com.smaato.handlerequests.service;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Calendar;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,8 +41,18 @@ public class RecordRequestService {
     @Autowired
     private ExternalCallService externalCallService;
 
-    Set<Integer> idMinRec = new HashSet<>();
+    Calendar rightNow = Calendar.getInstance();
+    
+    Map<Integer, Integer> minIdMap = new HashMap<>();
+    
+    Set<Integer> currentIdCount = new HashSet<Integer>();
 
+    public void clearAndStore(){
+        minIdMap.forEach((key,value) -> applog.info(key + ":" + value));
+        currentIdCount.clear();
+        minIdMap.clear();
+    }
+    
     /*
      * <<<<<< Extension 2 :
      * Using @Transactional annotation for synchronous acccess for write operation
@@ -44,20 +60,20 @@ public class RecordRequestService {
     @Transactional
     public int recordRequests(int id, boolean returnReqCount) throws FileNotFoundException, IOException {
 
-        idMinRec.add(id);
+        currentIdCount.add(id);
 
-            applog.info(String.valueOf(id));
+        minIdMap.put(rightNow.get(Calendar.MINUTE), currentIdCount.size());
 
-            if (returnReqCount) {
+        int currentMinCount = currentIdCount.size();
 
-                if (kafkaFlow) {
-                    publishToKafka(idMinRec.size());
-                }
-                return idMinRec.size(); // as current request ID has also been added into the log file.
+        if (returnReqCount) {
 
+            if (kafkaFlow) {
+               publishToKafka(currentMinCount);
             }
-
-        return idMinRec.size();
+            return currentMinCount; // as current request ID has also been added into the log file.
+        }
+        return currentMinCount;
     }
 
     /*
