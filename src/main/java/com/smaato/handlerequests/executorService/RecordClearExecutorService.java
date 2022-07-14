@@ -1,13 +1,17 @@
 package com.smaato.handlerequests.executorService;
 
+import java.util.Calendar;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
 
 import com.smaato.handlerequests.service.RecordRequestService;
 
+@Component
 public class RecordClearExecutorService {
     
     @Autowired
@@ -15,22 +19,27 @@ public class RecordClearExecutorService {
     
     private final ScheduledExecutorService recClearExecutor = Executors.newScheduledThreadPool(1);
 
-    public void refreshRecords(){
-
-        final Runnable logRecordRunnable = new Runnable() {
-            public void run() {
-                recordRequestService.store();
-            }
-        };
-
+        @Bean
+        public void refreshRecords(){
+  
         final Runnable clearRecordRunnable = new Runnable() {
+            int lastMinute;
+            int currentMinute;
             public void run() {
-                recordRequestService.clearRecord();
+                lastMinute = currentMinute;
+                while (true)
+                {   Calendar calendar = Calendar.getInstance();
+                    calendar.setTimeInMillis(System.currentTimeMillis());
+                    currentMinute = calendar.get(Calendar.MINUTE);
+                    if (currentMinute != lastMinute){
+                        lastMinute = currentMinute;
+                        recordRequestService.clearAndStore();
+                    }
+                }
             }
         };
    
-    recClearExecutor.scheduleAtFixedRate(logRecordRunnable, 0, 1, TimeUnit.HOURS);
-    recClearExecutor.scheduleAtFixedRate(clearRecordRunnable, 0, 1, TimeUnit.MINUTES);
+        recClearExecutor.scheduleAtFixedRate(clearRecordRunnable, 0, 1, TimeUnit.SECONDS);
 
     }       
 }

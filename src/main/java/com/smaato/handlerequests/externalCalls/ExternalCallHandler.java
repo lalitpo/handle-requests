@@ -1,5 +1,10 @@
 package com.smaato.handlerequests.externalCalls;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -11,10 +16,14 @@ import com.smaato.handlerequests.constants.HandleRequestsConstant;
 @Service
 public class ExternalCallHandler {
 
+    private static final Logger EXTLOGGER = LogManager.getLogger(ExternalCallHandler.class);
+
+    SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+    
     @Autowired
     private RestTemplate restTemplate;
 
-    public int callThirdParty(String uri, int trafficCount) {
+    public int callExternal(String uri, int trafficCount) {
 
         String getUri = createURI(uri, trafficCount);
 
@@ -22,20 +31,16 @@ public class ExternalCallHandler {
         try {
             ResponseEntity<String> response = restTemplate.getForEntity(getUri, String.class); // HTTP-GET
             // request
+            //<<<<<< Extension 1 : HTTP-POST request >>>>>>
+            //String response = restTemplate.postForObject(getUri,  trafficCount, String.class);
             statusCode = response.getStatusCode().value();
+
+            EXTLOGGER.debug(dateFormatter.format(Calendar.getInstance().getTime() + " : "+statusCode));
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-        /*
-         * <<<<<< Extension 1 : HTTP-POST request >>>>>>
-         * 
-         * ResponseEntity<String> response =
-         * restTemplate.postForObject(ManageRequestsConstants.CALLING_HOST.concat(getUri
-         * ),
-         * trafficCount, String.class);
-         * 
-         */
+       
         return statusCode;
     }
 

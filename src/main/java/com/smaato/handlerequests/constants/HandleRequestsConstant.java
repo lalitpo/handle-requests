@@ -4,6 +4,5 @@ public class HandleRequestsConstant {
 
     public static final String SUCCESSFUL_RESPONSE = "ok";
     public static final String FAILURE_RESPONSE = "failed";
-    public static final String CALLING_HOST = "http://localhost:";
-    public static final String ENDPOINT_QUERYPARAM = "count";
+    public static final String ENDPOINT_QUERYPARAM = "id";
 }

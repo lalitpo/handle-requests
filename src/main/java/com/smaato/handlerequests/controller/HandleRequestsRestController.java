@@ -4,8 +4,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import com.smaato.handlerequests.constants.HandleRequestsConstant;
+import com.smaato.handlerequests.externalCalls.ExternalCallHandler;
 import com.smaato.handlerequests.interfaces.HandleRequestsInterface;
-import com.smaato.handlerequests.service.ExternalCallService;
 import com.smaato.handlerequests.service.RecordRequestService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,11 +26,18 @@ public class HandleRequestsRestController implements HandleRequestsInterface {
     private RecordRequestService recordRequestService;
 
     @Autowired
-    private ExternalCallService externalCallService;
+    private ExternalCallHandler externalCallHandler;
 
     @Value("${server.port}")
     private String appPort;
 
+
+    /**
+	 * Logs the Input ID and calls external entities .
+	 * @param id random id input
+     * @param endpoint Optional Parameter : Endpoint to call another REST API
+     * @return Status(ok/failed) of the Rest call
+	 */
     @Override
     @GetMapping("/accept")
     @Produces(MediaType.APPLICATION_JSON)
@@ -40,7 +47,7 @@ public class HandleRequestsRestController implements HandleRequestsInterface {
         try {
             int trafficCount = recordRequestService.recordRequests(id, endpoint.isEmpty());
             if (!endpoint.isEmpty()) {
-                externalCallService.callThirdParty(HandleRequestsConstant.CALLING_HOST + appPort + endpoint,
+                externalCallHandler.callExternal(endpoint,
                         trafficCount);
             }
         } catch (Exception e) {
