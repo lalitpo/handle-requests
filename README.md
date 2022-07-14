@@ -11,7 +11,7 @@
 
 ---
 
-<p align="center"> Handle-Request is a. REST API based Java Application which allows users to call /api/smaato/accept url to store the incoming Ids into a log file or to send it to any external third Party.
+<p align="center"> Handle-Request is a REST API based Java Application which allows users to call /api/smaato/accept url to store the incoming Ids into a log file or to send it to any external third Party.
     <br> 
 </p>
 
@@ -69,5 +69,6 @@ Add additional notes about how to deploy this on a live system.
 
 ## ✍️ Authors <a name = "authors"></a>
 
-- [@lalitpo](https://github.com/lalitpo) - Idea & Initial work
+- smaato - Idea
+- [@lalitpo](https://github.com/lalitpo) -  Work
 
