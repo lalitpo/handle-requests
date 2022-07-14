@@ -35,7 +35,7 @@ public class ExternalCallHandler {
             //String response = restTemplate.postForObject(getUri,  trafficCount, String.class);
             statusCode = response.getStatusCode().value();
 
-            EXTLOGGER.debug(dateFormatter.format(Calendar.getInstance().getTime() + " : "+statusCode));
+            EXTLOGGER.debug(dateFormatter.format(Calendar.getInstance().getTime()) + " : "+statusCode);
 
         } catch (Exception e) {
             e.printStackTrace();
