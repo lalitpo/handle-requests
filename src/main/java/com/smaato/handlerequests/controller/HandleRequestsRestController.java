@@ -47,7 +47,7 @@ public class HandleRequestsRestController implements HandleRequestsInterface {
         try {
             int trafficCount = recordRequestService.recordRequests(id);
             if(endpoint!=null && !endpoint.isEmpty()) {
-                    externalCallHandler.callExternal(endpoint, trafficCount);
+                    externalCallHandler.callExternal(id, endpoint, trafficCount);
             }
             
         } catch (Exception e) {

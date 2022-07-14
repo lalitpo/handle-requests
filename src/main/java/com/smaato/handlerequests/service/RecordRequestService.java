@@ -37,7 +37,7 @@ public class RecordRequestService {
     
     Set<Integer> currentIdCount = new HashSet<Integer>();
 
-    SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+    SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
     public void clearAndStore(){        
         minIdMap.put(dateFormatter.format(Calendar.getInstance().getTime()), 0); 
@@ -63,7 +63,7 @@ public class RecordRequestService {
 
         if (kafkaFlow) {
 
-            publishToKafka(currentMinTraffic);
+            publishToKafka(id, currentMinTraffic);
         }
         return currentMinTraffic;
     }
@@ -71,9 +71,9 @@ public class RecordRequestService {
     /*
      * <<<<<< Extension 3 : Sending the Id Count to Kafka : Distributed streaming service >>>>>>>>> 
      */
-    private void publishToKafka(int trafficCount) {
+    private void publishToKafka(int id, int trafficCount) {
 
-        externalCallHandler.callExternal(kafkaUrl,
+        externalCallHandler.callExternal(id, kafkaUrl,
                 trafficCount);
 
     }
