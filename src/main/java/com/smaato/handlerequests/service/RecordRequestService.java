@@ -40,7 +40,6 @@ public class RecordRequestService {
     SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy HH:mm");
 
     public void clearAndStore(){        
-        minIdMap.put(dateFormatter.format(Calendar.getInstance().getTime()), 0);
         applog.debug(dateFormatter.format(Calendar.getInstance().getTime()) + "=" + currentIdCount.size());
         currentIdCount.clear();  
     }
@@ -52,21 +51,18 @@ public class RecordRequestService {
     /**
 	 * Storing the Input ID into a Log file .
 	 * @param id random id input
-     * @param endpoint boolean flag; true if came in the input of REST call
-     * @return Status(ok/failed) of the Rest call
+     * @return Count of IDs in current Minute
 	 */
     @Transactional
-    public int recordRequests(int id, boolean returnReqCount) throws FileNotFoundException, IOException {
+    public int recordRequests(int id) throws FileNotFoundException, IOException {
 
         currentIdCount.add(id);
         minIdMap.put(dateFormatter.format(Calendar.getInstance().getTime()), currentIdCount.size());
         int currentMinTraffic = currentIdCount.size();
 
-        if (returnReqCount && kafkaFlow) {
+        if (kafkaFlow) {
 
             publishToKafka(currentMinTraffic);
-             
-            return currentMinTraffic;  
         }
         return currentMinTraffic;
     }
