@@ -11,7 +11,7 @@
 
 ---
 
-<p align="center"> Few lines describing your project.
+<p align="center"> Handle-Request is a. REST API based Java Application which allows users to call /api/smaato/accept url to store the incoming Ids into a log file or to send it to any external third Party.
     <br> 
 </p>
 
@@ -19,13 +19,9 @@
 
 - [About](#about)
 - [Getting Started](#getting_started)
-- [Deployment](#deployment)
-- [Usage](#usage)
-- [Built Using](#built_using)
-- [TODO](../TODO.md)
-- [Contributing](../CONTRIBUTING.md)
-- [Authors](#authors)
-- [Acknowledgments](#acknowledgement)
+- [Deployment](#deployment) 
+- [Built Using](#built_using) 
+- [Authors](#authors) 
 
 ## 🧐 About <a name = "about"></a>
 
@@ -60,30 +56,7 @@ until finished
 ```
 
 End with an example of getting some data out of the system or using it for a little demo.
-
-## 🔧 Running the tests <a name = "tests"></a>
-
-Explain how to run the automated tests for this system.
-
-### Break down into end to end tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-### And coding style tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-## 🎈 Usage <a name="usage"></a>
-
-Add notes about how to use the system.
+ 
 
 ## 🚀 Deployment <a name = "deployment"></a>
 
@@ -91,10 +64,8 @@ Add additional notes about how to deploy this on a live system.
 
 ## ⛏️ Built Using <a name = "built_using"></a>
 
-- [MongoDB](https://www.mongodb.com/) - Database
-- [Express](https://expressjs.com/) - Server Framework
-- [VueJs](https://vuejs.org/) - Web Framework
-- [NodeJs](https://nodejs.org/en/) - Server Environment
+- [Java](https://www.java.com/en/) - Programming Language
+- [Spring](https://spring.io) - Application Framework
 
 ## ✍️ Authors <a name = "authors"></a>
 
