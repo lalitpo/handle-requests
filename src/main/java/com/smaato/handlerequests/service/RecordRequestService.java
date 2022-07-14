@@ -40,6 +40,7 @@ public class RecordRequestService {
     SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy HH:mm");
 
     public void clearAndStore(){        
+        minIdMap.put(dateFormatter.format(Calendar.getInstance().getTime()), 0); 
         applog.debug(dateFormatter.format(Calendar.getInstance().getTime()) + "=" + currentIdCount.size());
         currentIdCount.clear();  
     }
