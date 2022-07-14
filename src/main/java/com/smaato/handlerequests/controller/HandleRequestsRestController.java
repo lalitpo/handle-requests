@@ -45,11 +45,11 @@ public class HandleRequestsRestController implements HandleRequestsInterface {
             @RequestParam(value = "endpoint", required = false) String endpoint) {
 
         try {
-            int trafficCount = recordRequestService.recordRequests(id, endpoint.isEmpty());
-            if (!endpoint.isEmpty()) {
-                externalCallHandler.callExternal(endpoint,
-                        trafficCount);
+            int trafficCount = recordRequestService.recordRequests(id);
+            if(endpoint!=null && !endpoint.isEmpty()) {
+                    externalCallHandler.callExternal(endpoint, trafficCount);
             }
+            
         } catch (Exception e) {
             return new ResponseEntity<String>(HandleRequestsConstant.FAILURE_RESPONSE,
                     HttpStatus.INTERNAL_SERVER_ERROR);
