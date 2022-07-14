@@ -28,10 +28,6 @@ public class HandleRequestsRestController implements HandleRequestsInterface {
     @Autowired
     private ExternalCallHandler externalCallHandler;
 
-    @Value("${server.port}")
-    private String appPort;
-
-
     /**
 	 * Logs the Input ID and calls external entities .
 	 * @param id random id input
